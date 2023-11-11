@@ -162,6 +162,10 @@ a {
 }
 
 /* Cells that are in the process of being selected */
-.table-drag-select td.cell-being-selected {
+.table-drag-select td.cell-being-selected-select {
   background-color: #3cd791;
+}
+
+.table-drag-select td.cell-being-selected-cancel {
+  background-color: #d73c9e;
 }

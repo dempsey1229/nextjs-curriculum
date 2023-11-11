@@ -4,11 +4,10 @@ type CellPropsType = {
   disabled: boolean;
   beingSelected: boolean;
   selected: boolean;
-  //   onTouchStart: (e: MouseEvent | TouchEvent) => void;
   onTouchStart: MouseEventHandler;
-  //   onTouchMove: (e: MouseEvent | TouchEvent) => void;
   onTouchMove: MouseEventHandler;
   children: JSX.Element;
+  addMode: boolean;
 };
 
 const Cell = ({
@@ -18,6 +17,7 @@ const Cell = ({
   onTouchStart,
   onTouchMove,
   children,
+  addMode,
   ...props
 }: CellPropsType) => {
   const tdRef = useRef<HTMLTableCellElement>(null);
@@ -51,8 +51,11 @@ const Cell = ({
   if (selected) {
     cellClassName += ' cell-selected';
   }
-  if (beingSelected) {
-    cellClassName += ' cell-being-selected';
+  if (beingSelected && addMode) {
+    cellClassName += ' cell-being-selected-select';
+  }
+  if (beingSelected && !addMode) {
+    cellClassName += ' cell-being-selected-cancel';
   }
   //   console.log(tdRef.current);
   return (

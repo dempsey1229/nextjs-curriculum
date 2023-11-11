@@ -230,6 +230,7 @@ const TableDragSelect = ({
               onTouchMove={handleTouchMoveCell}
               selected={value[i][j]}
               beingSelected={isCellBeingSelected(i, j)}
+              addMode={addMode}
               {...cell.props}
             >
               {cell.props.children}
