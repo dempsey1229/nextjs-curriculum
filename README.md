@@ -1,6 +1,8 @@
 # nextjs-curriculum
 
 ## Demo
+
+- Normal
 https://nextjs-curriculum.vercel.app/curriculum
 
 - Bonus
