@@ -93,6 +93,7 @@ const TableDragSelect = ({
     if (!selectionState.selectionStarted && (isLeftClick || isTouch)) {
       e.preventDefault();
       const { row, column } = eventToCellLocation(e);
+      if (row <= 0 || column <= 0) return;
       setSelectionState({
         selectionStarted: true,
         startRow: row,
@@ -183,8 +184,8 @@ const TableDragSelect = ({
     const index = {
       row:
         ((target as HTMLTableCellElement)?.parentNode as HTMLTableRowElement)
-          ?.rowIndex ?? 0,
-      column: (target as HTMLTableCellElement)?.cellIndex ?? 0,
+          ?.rowIndex ?? -1,
+      column: (target as HTMLTableCellElement)?.cellIndex ?? -1,
     };
     // console.log(index);
     return index;
