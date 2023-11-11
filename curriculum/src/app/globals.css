@@ -163,6 +163,5 @@ a {
 
 /* Cells that are in the process of being selected */
 .table-drag-select td.cell-being-selected {
-  /* This is the blue color you see when you select text with the cursor */
-  background-color: #3f83d5;
+  background-color: #3cd791;
 }

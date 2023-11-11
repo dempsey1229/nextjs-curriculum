@@ -56,7 +56,7 @@ const Cell = ({
         tdRef.current.removeEventListener('touchmove', handleTouchMove);
       }
     };
-  }, [disabled, onTouchStart, onTouchMove, selected]);
+  }, [disabled, onTouchStart, onTouchMove]);
 
   let cellClassName = disabled ? 'cell-disabled' : 'cell-enabled';
   if (selected) {

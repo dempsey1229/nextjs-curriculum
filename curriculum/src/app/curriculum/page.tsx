@@ -3,8 +3,11 @@ import { useState } from 'react';
 import TableDragSelect from './TableDragSelect';
 import React from 'react';
 import { Typography, Switch, FormControlLabel } from '@mui/material';
+import { usePathname, useRouter } from 'next/navigation';
 
 const Curriculum = () => {
+  const router = useRouter();
+  const pathName = usePathname();
   const timeSlot = [
     '0',
     '1',
@@ -30,6 +33,28 @@ const Curriculum = () => {
     setChecked(event.target.checked);
   };
 
+  function getSelectedCellInfo() {
+    // return cell's row and column if its value is true
+    const selectedCell = cells.flatMap((row, rowIndex) =>
+      row
+        .map((cell, colIndex) => ({
+          row: rowIndex,
+          col: colIndex,
+          value: cell,
+        }))
+        .filter((cell) => cell.value)
+    );
+    const selectedCellString = selectedCell.reduce((accu, curr, idx) => {
+      return accu + `{${curr.row}-${curr.col}},`;
+    }, '');
+    router.push(
+      `${pathName}?${
+        selectedCellString === '' ? '' : 'selectedCells='
+      }${selectedCellString}`
+    );
+    return selectedCellString;
+  }
+
   return (
     <div
       className="container"
@@ -38,9 +63,17 @@ const Curriculum = () => {
         alignContent: 'center',
         flexDirection: 'column',
         flexWrap: 'wrap',
+        color: 'black',
+        minWidth: '500px',
       }}
     >
-      <div style={{ display: 'flex', flexDirection: 'row', color: 'black' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+        }}
+      >
         <FormControlLabel
           value="start"
           control={
@@ -55,6 +88,7 @@ const Curriculum = () => {
           labelPlacement="end"
         />
       </div>
+      <div> 已選時段：{getSelectedCellInfo()}</div>
       <TableDragSelect value={cells} onChange={setCells} addMode={checked}>
         <tr>
           <td className="cell-disabled" />

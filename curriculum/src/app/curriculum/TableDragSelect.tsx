@@ -9,7 +9,6 @@ type TableDragSelectProps = {
   value: boolean[][];
   onChange: (newState: any) => void;
   addMode: boolean;
-  onSelectionStart?: (position: { row: number; column: number }) => void;
 };
 
 const TableDragSelect = ({
@@ -17,7 +16,6 @@ const TableDragSelect = ({
   value,
   onChange,
   addMode,
-  onSelectionStart = () => {},
 }: TableDragSelectProps) => {
   const [selectionState, setSelectionState] = useState<{
     selectionStarted: boolean;
@@ -94,7 +92,6 @@ const TableDragSelect = ({
     if (!selectionState.selectionStarted && (isLeftClick || isTouch)) {
       e.preventDefault();
       const { row, column } = eventToCellLocation(e);
-      onSelectionStart({ row, column });
       setSelectionState({
         selectionStarted: true,
         startRow: row,
