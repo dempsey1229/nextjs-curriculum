@@ -1,5 +1,11 @@
 # nextjs-curriculum
 
+## Demo
+https://nextjs-curriculum.vercel.app/curriculum
+
+- Bonus
+https://nextjs-curriculum.vercel.app/curriculum/bonus
+
 ## 題目
 
 請用純 Next 寫一個頁面，若要用 UI Library 可用 Material UI 或搭配 Tailwind CSS，不可使用其他套件。
