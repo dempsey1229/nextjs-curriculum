@@ -1,7 +1,6 @@
 'use client';
-import { Children, useEffect, useState } from 'react';
 import _ from 'lodash';
-import React from 'react';
+import React, { Children, useEffect, useState } from 'react';
 import Cell from './Cell';
 
 type TableDragSelectProps = {
@@ -115,18 +114,18 @@ const TableDragSelect = ({
       const y = isTouch
         ? (e as TouchEvent).touches[0].clientY
         : (e as MouseEvent).clientY;
-      console.log(x, y);
+      //   console.log(x, y);
 
       const threshold = 100;
       const container = document.getElementsByClassName('tableContainer')[0];
       if (container) {
         const containerRect = container.getBoundingClientRect();
-        console.log(
-          containerRect.top,
-          containerRect.left,
-          containerRect.bottom,
-          containerRect.right
-        );
+        // console.log(
+        //   containerRect.top,
+        //   containerRect.left,
+        //   containerRect.bottom,
+        //   containerRect.right
+        // );
 
         // Check if pointer is too close to the left edge
         if (x - containerRect.left < threshold) {
@@ -161,15 +160,12 @@ const TableDragSelect = ({
 
       const { row, column } = eventToCellLocation(e);
       if (row <= 0 || column <= 0) return;
-      const { startRow, startColumn, endRow, endColumn } = selectionState;
 
-      if (endRow !== row || endColumn !== column) {
-        setSelectionState((prevState) => ({
-          ...prevState,
-          endRow: row,
-          endColumn: column,
-        }));
-      }
+      setSelectionState((prevState) => ({
+        ...prevState,
+        endRow: row,
+        endColumn: column,
+      }));
     }
   };
 
@@ -246,15 +242,7 @@ const TableDragSelect = ({
 
   return (
     <table className="table-drag-select">
-      <tbody
-        style={{
-          display: 'block',
-          //   minWidth: '600px',
-          //   overflow: 'scroll',
-        }}
-      >
-        {renderRows()}
-      </tbody>
+      <tbody style={{ display: 'block' }}>{renderRows()}</tbody>
     </table>
   );
 };

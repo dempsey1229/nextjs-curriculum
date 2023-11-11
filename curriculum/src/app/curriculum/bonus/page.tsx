@@ -1,9 +1,8 @@
 'use client';
-import { useState } from 'react';
-import TableDragSelect from '../TableDragSelect';
-import React from 'react';
-import { Typography, Switch, FormControlLabel } from '@mui/material';
+import { FormControlLabel, Switch } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import TableDragSelect from '../TableDragSelect';
 
 const Curriculum = () => {
   const router = useRouter();
@@ -47,13 +46,29 @@ const Curriculum = () => {
     const selectedCellString = selectedCell.reduce((accu, curr, idx) => {
       return accu + `{${curr.row}-${curr.col}},`;
     }, '');
+    return selectedCellString;
+  }
+
+  useEffect(() => {
+    const selectedCell = cells.flatMap((row, rowIndex) =>
+      row
+        .map((cell, colIndex) => ({
+          row: rowIndex,
+          col: colIndex,
+          value: cell,
+        }))
+        .filter((cell) => cell.value)
+    );
+    const selectedCellString = selectedCell.reduce((accu, curr, idx) => {
+      return accu + `{${curr.row}-${curr.col}},`;
+    }, '');
+
     router.push(
       `${pathName}${
         selectedCellString === '' ? '' : '?selectedCells='
       }${selectedCellString}`
     );
-    return selectedCellString;
-  }
+  }, [cells, pathName, router]);
 
   return (
     <div
@@ -112,23 +127,21 @@ const Curriculum = () => {
 
           {Array(14)
             .fill(null)
-            .map((_, row) => {
-              return (
-                <tr key={`tr-${row}`}>
-                  {Array(7)
-                    .fill(null)
-                    .map((__, col) => {
-                      if (col === 0) {
-                        return (
-                          <td key={`td-${col}`} className="cell-disabled">
-                            {timeSlot[row]}
-                          </td>
-                        );
-                      } else return <td key={`td-${col}`} />;
-                    })}
-                </tr>
-              );
-            })}
+            .map((_, row) => (
+              <tr key={`tr-${row}`}>
+                {Array(7)
+                  .fill(null)
+                  .map((__, col) =>
+                    col === 0 ? (
+                      <td key={`td-${col}`} className="cell-disabled">
+                        {timeSlot[row]}
+                      </td>
+                    ) : (
+                      <td key={`td-${col}`} />
+                    )
+                  )}
+              </tr>
+            ))}
         </TableDragSelect>
       </div>
     </div>

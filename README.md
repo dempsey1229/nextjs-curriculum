@@ -96,11 +96,3 @@ a
 
 此外，useMemo 也有一定的使用門檻，除了可能影響程式可讀性。
 如果不正確使用，也有可能在需要重新計算或渲染的情況下，出現沒有重新計算的錯誤。
-
-## TODO/BUG
-
-1. 當 query 參數改變 console 會出現 TREE MISMATCH 以及
-   ```
-   Warning: Cannot update a component (`Router`) while rendering a different component (`Curriculum`). To locate the bad setState() call inside `Curriculum`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render
-   ```
-   如果沒有使用 `router.push` 則無此問題。
