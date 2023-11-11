@@ -81,8 +81,8 @@
 
 html,
 body {
-  max-width: 100vw;
-  overflow-x: hidden;
+  /* max-width: 100vw; */
+  /* overflow-x: hidden; */
 }
 
 body {
@@ -108,7 +108,7 @@ a {
 
 .table-drag-select {
   /* Stretch horizontally to fill parent */
-  /* width: 100%; */
+  width: 500px;
   /* Keep columns same width */
 
   table-layout: fixed;
@@ -126,7 +126,7 @@ a {
   text-align: center;
   /* Cut off long strings of text with ... */
   text-overflow: ellipsis;
-  overflow: hidden;
+  /* overflow: hidden; */
   /* Make transparent gaps between cells. Better than relying on margin
    * because clicking an element's margin doesn't trigger events */
   border: 1px solid gray;

@@ -23,7 +23,6 @@ const Cell = ({
   const tdRef = useRef<HTMLTableCellElement>(null);
   useEffect(() => {
     const handleTouchStart = (e: any) => {
-      console.log(disabled);
       if (!disabled) {
         onTouchStart(e);
       }
@@ -34,16 +33,6 @@ const Cell = ({
         onTouchMove(e);
       }
     };
-    // console.log('QQ');
-    // console.log(tdRef.current);
-
-    // window.addEventListener('touchstart', handleTouchStart);
-    // window.addEventListener('touchmove', handleTouchMove);
-
-    // return () => {
-    //     window.removeEventListener('touchstart', handleTouchStart);
-    //     window.removeEventListener('touchmove', handleTouchMove);
-    // };
     if (tdRef.current) {
       //   debugger;
       tdRef.current.addEventListener('touchstart', handleTouchStart);
@@ -70,10 +59,9 @@ const Cell = ({
     <td
       ref={tdRef}
       className={`cell ${cellClassName}`}
-      onMouseDown={onTouchStart}
-      onMouseMove={onTouchMove}
+      onMouseDown={!disabled ? onTouchStart : undefined}
+      onMouseMove={!disabled ? onTouchMove : undefined}
       {...props}
-      //   style={{ width: 15 }}
     >
       {children || <span>&nbsp;</span>}
     </td>

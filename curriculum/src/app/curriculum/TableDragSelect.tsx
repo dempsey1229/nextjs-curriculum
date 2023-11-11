@@ -1,6 +1,6 @@
 'use client';
 import { Children, useEffect, useState } from 'react';
-import _, { add } from 'lodash';
+import _ from 'lodash';
 import React from 'react';
 import Cell from './Cell';
 
@@ -32,11 +32,13 @@ const TableDragSelect = ({
     endColumn: null,
     addMode,
   });
+
   useEffect(() => {
     const handleTouchEndWindow = (e: any) => {
       const isLeftClick = e.button === 0;
       const isTouch = e.type !== 'mousedown';
       if (selectionState.selectionStarted && (isLeftClick || isTouch)) {
+        // console.log(selectionState);
         const updatedValue = _.cloneDeep(value);
         const minRow = Math.min(
           selectionState.startRow || 0,
@@ -99,14 +101,66 @@ const TableDragSelect = ({
         endRow: row,
         endColumn: column,
         addMode: addMode,
-        // addMode: !value[row][column]
       });
     }
   };
   const handleTouchMoveCell = (e: MouseEvent | TouchEvent) => {
+    const isTouch = e.type === 'touchmove';
     if (selectionState.selectionStarted) {
       e.preventDefault();
+      // 邊緣滾動
+      const x = isTouch
+        ? (e as TouchEvent).touches[0].clientX
+        : (e as MouseEvent).clientX;
+      const y = isTouch
+        ? (e as TouchEvent).touches[0].clientY
+        : (e as MouseEvent).clientY;
+      console.log(x, y);
+
+      const threshold = 100;
+      const container = document.getElementsByClassName('tableContainer')[0];
+      if (container) {
+        const containerRect = container.getBoundingClientRect();
+        console.log(
+          containerRect.top,
+          containerRect.left,
+          containerRect.bottom,
+          containerRect.right
+        );
+
+        // Check if pointer is too close to the left edge
+        if (x - containerRect.left < threshold) {
+          container.scrollTo({
+            left: container.scrollLeft - 10,
+            behavior: 'auto',
+          });
+        }
+        // Check if pointer is too close to the right edge
+        else if (containerRect.right - x < threshold) {
+          container.scrollTo({
+            left: container.scrollLeft + 10,
+            behavior: 'auto',
+          });
+        }
+
+        // Check if pointer is too close to the top edge
+        if (y - containerRect.top < threshold) {
+          container.scrollTo({
+            top: container.scrollTop - 10,
+            behavior: 'auto',
+          });
+        }
+        // Check if pointer is too close to the bottom edge
+        else if (containerRect.bottom - y < threshold) {
+          container.scrollTo({
+            top: container.scrollTop + 10,
+            behavior: 'auto',
+          });
+        }
+      }
+
       const { row, column } = eventToCellLocation(e);
+      if (row <= 0 || column <= 0) return;
       const { startRow, startColumn, endRow, endColumn } = selectionState;
 
       if (endRow !== row || endColumn !== column) {
@@ -132,9 +186,9 @@ const TableDragSelect = ({
     }
     const index = {
       row:
-        ((target as HTMLTableCellElement).parentNode as HTMLTableRowElement)
-          .rowIndex ?? -1,
-      column: (target as HTMLTableCellElement).cellIndex ?? -1,
+        ((target as HTMLTableCellElement)?.parentNode as HTMLTableRowElement)
+          ?.rowIndex ?? 0,
+      column: (target as HTMLTableCellElement)?.cellIndex ?? 0,
     };
     // console.log(index);
     return index;
@@ -175,6 +229,7 @@ const TableDragSelect = ({
           {Children.map(tr.props.children, (cell, j) => (
             <Cell
               key={j}
+              disabled={i === 0 || j === 0}
               onTouchStart={handleTouchStartCell}
               onTouchMove={handleTouchMoveCell}
               selected={value[i][j]}
@@ -191,7 +246,15 @@ const TableDragSelect = ({
 
   return (
     <table className="table-drag-select">
-      <tbody>{renderRows()}</tbody>
+      <tbody
+        style={{
+          display: 'block',
+          //   minWidth: '600px',
+          //   overflow: 'scroll',
+        }}
+      >
+        {renderRows()}
+      </tbody>
     </table>
   );
 };

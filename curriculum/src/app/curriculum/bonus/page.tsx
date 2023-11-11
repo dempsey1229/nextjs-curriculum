@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import TableDragSelect from './TableDragSelect';
+import TableDragSelect from '../TableDragSelect';
 import React from 'react';
 import { Typography, Switch, FormControlLabel } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
@@ -61,6 +61,7 @@ const Curriculum = () => {
       style={{
         display: 'flex',
         alignContent: 'center',
+        alignItems: 'center',
         flexDirection: 'column',
         flexWrap: 'wrap',
         color: 'black',
@@ -87,9 +88,17 @@ const Curriculum = () => {
           labelPlacement="end"
         />
       </div>
-      <div className="tableContainer">
-        <div> 已選時段：{getSelectedCellInfo()}</div>
+      <div> 已選時段：{getSelectedCellInfo()}</div>
 
+      <div
+        className="tableContainer"
+        style={{
+          overflow: 'scroll',
+          width: '400px',
+          height: '400px',
+          backgroundColor: 'pink',
+        }}
+      >
         <TableDragSelect value={cells} onChange={setCells} addMode={checked}>
           <tr>
             <td className="cell-disabled" />
