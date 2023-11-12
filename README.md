@@ -71,7 +71,7 @@ https://nextjs-curriculum.vercel.app/curriculum/bonus
 
 不是，直接在 console 做個小實驗就知道了。
 
-Experience1
+Experiment1
 
 ```
 a = {name: "bob"}
@@ -83,7 +83,7 @@ a
 > {name: 'bob'}
 ```
 
-Experience2
+Experiment2
 
 ```
 a = {name: {en: "bob"}}
